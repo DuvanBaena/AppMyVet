@@ -42,9 +42,11 @@ namespace AppMyVet.Web.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-            }
 
-            ModelState.AddModelError(string.Empty, "Failed to login.");
+                ModelState.AddModelError(string.Empty, "User or password not valid.");
+                model.Password = string.Empty;
+             }
+
             return View(model);
         }
 
