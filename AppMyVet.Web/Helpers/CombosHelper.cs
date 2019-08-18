@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace AppMyVet.Web.Helpers
 {
-    public class CombosHelper : ICombosHelper
+    public class CombosHelper  : ICombosHelper
 
     {
         private readonly DataContext _dataContext;
@@ -14,7 +14,7 @@ namespace AppMyVet.Web.Helpers
         {
             _dataContext = dataContext;
         }
-        private IEnumerable<SelectListItem> GetComboPetTypes()
+        public IEnumerable<SelectListItem> GetComboPetTypes()
         {
             var list = _dataContext.PetTypes.Select(pt => new SelectListItem
             {

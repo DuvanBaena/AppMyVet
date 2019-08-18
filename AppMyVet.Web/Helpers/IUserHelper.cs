@@ -1,9 +1,6 @@
 ﻿using AppMyVet.Web.Data.Entities;
 using AppMyVet.Web.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AppMyVet.Web.Helpers

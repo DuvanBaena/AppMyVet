@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,15 +19,18 @@ namespace AppMyVet.Web.Controllers
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public OwnersController(
             DataContext context, 
             IUserHelper userHelper,
-            ICombosHelper combosHelper)
+            ICombosHelper combosHelper,
+            IConverterHelper converterHelper)
         {
             _context = context;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Owners
@@ -226,6 +230,52 @@ namespace AppMyVet.Web.Controllers
                 OwnerId = owner.Id,
                 PetTypes = _combosHelper.GetComboPetTypes()
             };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPet(PetViewModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+
+                    path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Pets",
+                        file);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(stream);
+                    }
+
+                    path = $"~/images/Pets/{file}";
+
+                }
+
+                var pet =  await _converterHelper.ToPetasync(model, path);
+                               
+                try
+                {
+                    _context.Pets.Add(pet);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction($"Details/{model.OwnerId}");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.ToString());
+                    return View(model);
+                }
+            }
 
             return View(model);
         }
