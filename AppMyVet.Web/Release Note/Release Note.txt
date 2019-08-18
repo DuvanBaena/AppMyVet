@@ -1,0 +1,24 @@
+﻿﻿/*
+Fecha : 2019-08-18
+Realizado: Duvan Baena
+Proyecto : 
+Descripcion : avoid the use of forech
+
+            var list = new List<SelectListItem>();
+            foreach (var petType in _dataContext.PetTypes)
+            {
+                list.Add(new SelectListItem
+                {
+                    Text = petType.Name,
+                    Value = $"{petType.Id}"
+                });
+            }
+
+
+			var list = _dataContext.PetTypes.Select(pt => new SelectListItem
+            {
+                Text = pt.Name,
+                Value = $"{pt.Id}"
+            }).ToList();
+
+*/
