@@ -1,18 +1,16 @@
-﻿@model AppMyVet.Web.Models.HistoryViewModel
-
+﻿@model  AppMyVet.Web.Models.HistoryViewModel
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "EditHistory";
 }
 
-<h2>Edit</h2>
-
-<h4>History</h4>
+<h2>EditHistory</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddHistory">
+        <form asp-action="EditHistory">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PetId" />
+            <input type="hidden" asp-for="Id" />
 
             <partial name="_History" />
 
@@ -23,5 +21,4 @@
         </form>
     </div>
 </div>
-
 

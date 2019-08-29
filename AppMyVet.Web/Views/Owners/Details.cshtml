@@ -61,7 +61,7 @@
 
 }
 else
-    {
+{
     <table class="table">
         <thead>
             <tr>
@@ -91,7 +91,7 @@ else
         </thead>
         <tbody>
             @foreach (var item in Model.Pets)
-{
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
@@ -99,7 +99,7 @@ else
                     <td>
                         @if (!string.IsNullOrEmpty(item.ImageUrl))
                         {
-                           <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
+                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
 
                         }
                     </td>
@@ -121,12 +121,33 @@ else
                     <td>
                         <a asp-action="EditPet" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
                         <a asp-action="DetailsPet" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                        <a asp-action="DeletePet" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
                     </td>
                 </tr>
-         }
+            }
         </tbody>
     </table>
 
-    }
+}
 
+<partial name="_DeleteDialog" />
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Delete item
+            var item_to_delete;
+
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Owners/DeletePet/' + item_to_delete;
+            });
+        });
+    </script>
+}
