@@ -35,7 +35,7 @@ namespace AppMyVet.Web.Data.Entities
 
         [Display(Name = "Born")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime BornLocal => Born.ToLocalTime();
+        public DateTime BornLocal => Born;
 
 
         public PetType PetType { get; set; }
