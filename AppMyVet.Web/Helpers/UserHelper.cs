@@ -93,6 +93,12 @@ namespace AppMyVet.Web.Helpers
                 false);
         }
 
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+
     }
 
 }
